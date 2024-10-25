@@ -1,3 +1,4 @@
+using BuzzerApp.Hubs;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 
@@ -17,11 +18,12 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Host.UseSerilog();
-
+    
     builder.Services.AddControllers().AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
     });
+    builder.Services.AddSignalR();
 
     var app = builder.Build();
 
@@ -29,6 +31,7 @@ try
 
     app.UseStaticFiles();
     app.UseRouting();
+    app.MapHub<BuzzerHub>("/buzzerhub");
 
     app.MapControllerRoute(
         name: "default",

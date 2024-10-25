@@ -7,6 +7,10 @@ export default defineConfig({
 		proxy: {
 			'/api': 'http://localhost:7100',
 			'/auth': 'http://localhost:7100',
+			'/buzzerhub': {
+				target: 'http://localhost:7100',
+				ws: true
+			},
 		}
 	}
 });
